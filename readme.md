@@ -36,7 +36,7 @@ python demo.py --mode False --prompt "A dog is running on the grass"
 
 output：
 
-<img src="F:\diffusion\pytorch-stable-diffusion\output\text2dog.png" alt="output" style="zoom:50%;" />
+<img src=".\output\text2dog.png" alt="output" style="zoom:50%;" />
 
 ### Image-to-Image Generation
 
