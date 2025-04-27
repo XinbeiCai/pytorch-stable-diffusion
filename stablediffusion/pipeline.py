@@ -72,7 +72,7 @@ def generate(prompt, uncond_prompt, input_image=None, strength=0.8,
             latents = encoder(input_image_tensor, encoder_noise)
             # add noise to the latents
             sampler.set_strength(strength=strength)
-            latents = sampler.add_noise(latents, sampler.timesteps[0])
+            latents, noise = sampler.add_noise(latents, sampler.timesteps[0])
             to_idle(encoder)
         else:
             latents = torch.randn(latents_shape, generator=generator, device=device)

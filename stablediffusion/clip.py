@@ -10,6 +10,8 @@ class CLIPEmbedding(nn.Module):
     """
     def __init__(self, n_vocab, n_embd, n_tokens):
         super().__init__()
+        self.n_vocab = n_vocab
+        self.n_embd = n_embd
         self.token_embedding = nn.Embedding(n_vocab, n_embd)
         self.position_embedding = nn.Parameter(torch.zeros((n_tokens, n_embd)))
 
@@ -65,11 +67,29 @@ class CLIP(nn.Module):
         self.layers = nn.ModuleList([CLIPLayer(n_heads, n_embd) for i in range(layer_num)])
         self.layernorm = nn.LayerNorm(n_embd)
 
-    def forward(self, tokens):
-        tokens = tokens.type(torch.long)
+    # def forward(self, tokens):
+    #     tokens = tokens.type(torch.long)
+    #
+    #     # (b, l) -> (b, l, d)
+    #     state = self.embedding(tokens)
+    #     for layer in self.layers:
+    #         state = layer(state)
+    #
+    #     output = self.layernorm(state)
+    #     return output
+    def forward(self, tokens=None, input_embeds=None):
+        """
+        如果传入 tokens，就用 embedding lookup；
+        如果传入 input_embeds，直接用 input_embeds。
+        """
+        if input_embeds is not None:
+            state = input_embeds
+        elif tokens is not None:
+            tokens = tokens.type(torch.long)
+            state = self.embedding(tokens)
+        else:
+            raise ValueError("Either tokens or input_embeds must be provided.")
 
-        # (b, l) -> (b, l, d)
-        state = self.embedding(tokens)
         for layer in self.layers:
             state = layer(state)
 

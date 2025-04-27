@@ -101,17 +101,13 @@ class DDPMSampler:
 
         sqrt_alpha_prod = alphas_cumprod[timesteps] ** 0.5
         sqrt_alpha_prod = sqrt_alpha_prod.flatten()
-        # while len(sqrt_alpha_prod.shape) < len(original_samples.shape):
-        #     sqrt_alpha_prod = sqrt_alpha_prod.unsqueeze(-1)
         sqrt_alpha_prod = sqrt_alpha_prod.view(-1, *[1] * (original_samples.dim() - 1))
 
         sqrt_one_minus_alpha_prod = (1 - alphas_cumprod[timesteps]) ** 0.5
         sqrt_one_minus_alpha_prod = sqrt_one_minus_alpha_prod.flatten()
-        # while len(sqrt_one_minus_alpha_prod.shape) < len(original_samples.shape):
-        #     sqrt_one_minus_alpha_prod = sqrt_one_minus_alpha_prod.unsqueeze(-1)
         sqrt_one_minus_alpha_prod = sqrt_one_minus_alpha_prod.view(-1, *[1] * (original_samples.dim() - 1))
 
         noise = torch.randn(original_samples.shape, generator=self.generator, device=original_samples.device,
                             dtype=original_samples.dtype)
         noise_samples = (sqrt_alpha_prod * original_samples) + sqrt_one_minus_alpha_prod * noise
-        return noise_samples
+        return noise_samples, noise
