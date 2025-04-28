@@ -24,7 +24,7 @@ pip install -r requirements.txt
 
 
 
-## 3. Getting Started
+## 3. Sampling
 
 ### Text-to-Image Generation
 
@@ -72,7 +72,39 @@ output image：
 
 
 
-## 4. Special Thanks
+## 4. finetune with textual inversion
+
+train：
+
+```
+python train_textual_inversion.py
+```
+
+test：
+
+```
+python textual_demo.py
+```
+
+
+
+## 5. finetune with lora
+
+train:
+
+```
+python train_lora.py
+```
+
+test:
+
+```
+python lora_demo.py
+```
+
+
+
+## 6. Special Thanks
 
 This project was inspired by and based on the great work of the following repositories:
 
